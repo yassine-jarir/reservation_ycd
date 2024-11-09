@@ -51,7 +51,7 @@ function App() {
      }
  ]
 function addNExt(){
-    if(formData.email == "" && formData.firstNameLastName == "" ){
+    if(formData.email == "" || formData.firstNameLastName == "" ){
         toast.info('merci de remplir le nom et email', {
            position: "top-center",
            autoClose: 3000,
@@ -66,7 +66,7 @@ function addNExt(){
    }
    else if (count == 1){
     console.log(formData.arrive)
-    if(formData.arrive == "" && formData.depart == "" &&  formData.date == ""){
+    if(formData.arrive == "" || formData.depart == "" ||  formData.date == ""){
         toast.info('merci de remplir tout la garre arrive && depart && date', {
         position: "top-center",
         autoClose: 3000,
@@ -84,19 +84,7 @@ function addNExt(){
 }
 
 function prevBack(){
-    if(formData.email == "" && formData.firstNameLastName == ""){
-        toast.info('merci de remplir le nom et email', {
-           position: "top-center",
-           autoClose: 3000,
-           hideProgressBar: false,
-           closeOnClick: true,
-           pauseOnHover: true,
-           draggable: true,
-           progress: undefined,
-           theme: "colored",
-            });
-       return
-   }
+    
   setCount(prev => prev - 1 );
 }
 
@@ -203,6 +191,7 @@ function handleDate(e){
     formData.date = e.target.value
 
 }
+console.log(formData)
   return (
     <div className='h-[500px] bg   flex justify-between flex-col'>
  
@@ -278,7 +267,7 @@ function handleDate(e){
                 <form className="max-w-sm mx-auto">
                 <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">La gare de depart</label>
                 <select onChange={handleArrive} id="small" className="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected disabled>La gare d'arriver        </option>
+                    <option selected disabled>La gare d'arriver</option>
                     <option value="US">United States</option>
                     <option value="CA">Canada</option>
                     <option value="FR">France</option>
