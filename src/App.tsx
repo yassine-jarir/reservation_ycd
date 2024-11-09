@@ -1,17 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import Recherche from './component/Recherche';
-
+import { toast, ToastContainer } from 'react-toastify';
+ import 'react-toastify/dist/ReactToastify.css';
+import InputField from './component/InputField';
+import qrcodeimg from './qr-code.svg'
 
 interface FormData {
-        firstNameLastName: string,
-        email: string,
-        prix: number,
-      }
+    firstNameLastName: string,
+    email: string,
+    prix: number,
+    depart: string,
+    arrive : string,
+    date: string
+    
+}
+
 interface Item {
     time1  : string,
-    time2  : string
-}
+    time2  : string,
+ }
 
 function App() {
   const [count, setCount] = useState<number>(0)
@@ -19,52 +27,187 @@ function App() {
     firstNameLastName: "",
     email: "",
     prix: 0,
+    depart: "",
+    arrive : "",
+    date: ""
   })
 
  const times:Item[] = [
     {
         time1: "8:00",
-        time2: "10:00"
-    },
+        time2: "10:00",
+     },
     {
         time1: "10:00",
-        time2: "12:00"
-    },
+        time2: "12:00",
+     },
     {
         time1: "14:00",
-        time2: "18:00"
-    },
+        time2: "18:00",
+     },
     {
         time1: "20:00",
-        time2: "22:00"
-    }
+        time2: "22:00",
+     }
  ]
 function addNExt(){
+    if(formData.email == "" && formData.firstNameLastName == "" ){
+        toast.info('merci de remplir le nom et email', {
+           position: "top-center",
+           autoClose: 3000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "colored",
+            });
+       return
+   }
+   else if (count == 1){
+    console.log(formData.arrive)
+    if(formData.arrive == "" && formData.depart == "" &&  formData.date == ""){
+        toast.info('merci de remplir tout la garre arrive && depart && date', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+         });
+    return
+}
+}
   setCount(next => next + 1 );
 }
 
 function prevBack(){
+    if(formData.email == "" && formData.firstNameLastName == ""){
+        toast.info('merci de remplir le nom et email', {
+           position: "top-center",
+           autoClose: 3000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "colored",
+            });
+       return
+   }
   setCount(prev => prev - 1 );
 }
 
 function handleChangeInput(e: React.ChangeEvent<HTMLInputElement>){
     setformData((prevValue: FormData) =>( {
       ...prevValue,
-      firstNameLastName : e.target.value,
       email: e.target.value
     })
     );
 }
-console.log(formData)
+function handleChangeInputName(e: React.ChangeEvent<HTMLInputElement>){
+    setformData((prevValue: FormData) =>( {
+      ...prevValue,
+      firstNameLastName: e.target.value
+    })
+    );
+}
+ 
+// adult data 
+const [adultTotal, setAdultTotal] = useState(1);
+const [childrenTotal, setChildrenTotal] = useState(1);
+
+const tatalPassengers = adultTotal + childrenTotal 
+const [adultTotalPrix, setAdultTotalPrix] = useState(500);
+const [childrenTotalPrix, setChildrenTotalPrix] = useState(100);
+
+const [totalPrix, setTotalPrix] = useState(0)
+
+useEffect(() => {
+    if(tatalPassengers > 12){
+        toast.info('Total of the passenger is 12 !', {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+             });
+      
+  }
+    setAdultTotalPrix(()=> adultTotal * 500 )
+    setChildrenTotalPrix(()=> childrenTotal * 100)
+    setTotalPrix(() => childrenTotalPrix + adultTotalPrix)
+},[adultTotal, childrenTotal, adultTotalPrix, childrenTotalPrix, tatalPassengers])
+
+function adultInc(){
+    setAdultTotal((num)=> num + 1 )
+     
+}
+function adultDec(){
+    setAdultTotal((num)=> num - 1 )
+ }
+ 
+function childrenInc(){
+    setChildrenTotal((num)=> num + 1 )
+     
+}
+function childrenDec(){
+    setChildrenTotal((num)=> num - 1 )
+ }
+
+
+// count the checkbox 
+const [checkCount, setCheckCount] = useState<number>(0)
+function handleChange (e){
+     setCheckCount((prevCount) => e.target.checked ? prevCount+1 : prevCount - 1 )
+
+}
 function handleSubmit(e:React.MouseEvent<HTMLButtonElement>){
     e.preventDefault();
+    if(formData.email == "" && formData.firstNameLastName == ""){
+             toast.info('merci de remplir le nom et email', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                 });
+            return
+        }
+
     addNExt()
+}
+ 
+
+function handleArrive(e){
+    console.log(e.target.value)
+    formData.arrive = e.target.value
+}
+
+function handleDepart(e){
+    console.log(e.target.value)
+    formData.depart = e.target.value
+    
+}
+
+function handleDate(e){
+    console.log(e.target.value)
+    formData.date = e.target.value
+
 }
   return (
     <div className='h-[500px] bg   flex justify-between flex-col'>
  
     <ol className="h-[100px] rounded-[20px] border justify-center flex items-center w-full p-3 space-x-2 text-sm font-medium text-center text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm dark:text-gray-400 sm:text-base dark:bg-gray-800 dark:border-gray-700 sm:p-4 sm:space-x-4 rtl:space-x-reverse">
-
+ 
         <li className={`${count == 0 ? "text-blue-600"  : ""} flex items-center`}>
             <span className="flex items-center justify-center w-5 h-5 me-2  border border-blue-600 rounded-full shrink-0 dark:border-blue-500">
                 1
@@ -92,9 +235,10 @@ function handleSubmit(e:React.MouseEvent<HTMLButtonElement>){
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
             </svg>
         </li>
+ 
         <li className={`${count == 3 ? "text-blue-600"  : ""} flex items-center`}>
             <span className="flex items-center justify-center w-5 h-5 me-2  border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
-                4
+                5
             </span>
              <span className="text-xs hidden sm:inline-flex sm:ms-2">Voyageurs</span>
             <svg className="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
@@ -103,20 +247,15 @@ function handleSubmit(e:React.MouseEvent<HTMLButtonElement>){
         </li>
         <li className={`${count == 4 ? "text-blue-600"  : ""} flex items-center`}>
             <span className="flex items-center justify-center w-5 h-5 me-2  border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
-                5
-            </span>
-             <span className="text-xs hidden sm:inline-flex sm:ms-2">Les tickets</span>
-            <svg className="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
-            </svg>
-        </li>
-        <li className={`${count == 5 ? "text-blue-600"  : ""} flex items-center`}>
-            <span className="flex items-center justify-center w-5 h-5 me-2  border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
                 6
             </span>
-            <span className=" hidden sm:inline-flex sm:ms-2">Info</span>
+            <span className=" hidden sm:inline-flex sm:ms-2">Les tickets</span>
         </li>
+ 
     </ol>
+
+    <ToastContainer />
+
           <div className=' m-auto w-[800px]'>
               {count == 0 && 
                 <form className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 ">
@@ -125,7 +264,7 @@ function handleSubmit(e:React.MouseEvent<HTMLButtonElement>){
                     <div className="justify-center flex items-end content-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
                         <div>
                             <label   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom et prénom</label>
-                            <input onChange={handleChangeInput}  type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
+                            <input onChange={handleChangeInputName}  type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
                         </div>
                         <div className="mb-6">
                             <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
@@ -138,16 +277,16 @@ function handleSubmit(e:React.MouseEvent<HTMLButtonElement>){
               {count == 1 && 
                 <form className="max-w-sm mx-auto">
                 <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">La gare de depart</label>
-                <select id="small" className="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>La gare d'arriver        </option>
+                <select onChange={handleArrive} id="small" className="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option selected disabled>La gare d'arriver        </option>
                     <option value="US">United States</option>
                     <option value="CA">Canada</option>
                     <option value="FR">France</option>
                     <option value="DE">Germany</option>
                 </select>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">la gare d'arriver</label>
-                <select id="default" className="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>La gare de depart        </option>
+                <select onChange={handleDepart} id="default" className="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option selected disabled>La gare de depart        </option>
                     <option value="US">United States</option>
                     <option value="CA">Canada</option>
                     <option value="FR">France</option>
@@ -159,7 +298,7 @@ function handleSubmit(e:React.MouseEvent<HTMLButtonElement>){
                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                 </svg>
             </div>
-            <input  id="default-datepicker" type="date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
+            <input onChange={handleDate}  id="default-datepicker" type="date" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
             </div>
                 </form>
               }
@@ -179,14 +318,99 @@ function handleSubmit(e:React.MouseEvent<HTMLButtonElement>){
     </div>
     </div>
 }
-              {count == 3 && 4}
-              {count == 4 && 5}
-              {count == 5 && 6}
+              {count == 3 &&   <div className="">
+  <h1>Voyageurs</h1>
+  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
+    <div>
+      <h4>Adult (Prix {adultTotalPrix}DH)</h4>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <button 
+       onClick={adultInc} style={{ borderRadius: '50%', width: '50px', height: '50px', fontSize: '15pt', color: '#2e6c8e', backgroundColor: '#a6cde2', border: '3px solid #2e6c8e' }}>
+          +
+        </button>
+        <span>{adultTotal}</span>
+        <button 
+       onClick={adultDec}  disabled={adultTotal <= 1 ? true : false}  style={{ borderRadius: '50%', width: '50px', height: '50px', fontSize: '15pt', color: '#2e6c8e', backgroundColor: '#a6cde2', border: '3px solid #2e6c8e' }}>
+          -
+        </button>
+      </div>
+    </div>
+    <div style={{ width: '5px', backgroundColor: '#2e6c8e' }}></div>
+    <div>
+      <h4>Enfant (Prix {childrenTotalPrix}DH)</h4>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <button 
+      onClick={childrenInc}    style={{ borderRadius: '50%', width: '50px', height: '50px', fontSize: '15pt', color: '#2e6c8e', backgroundColor: '#a6cde2', border: '3px solid #2e6c8e' }}>
+          +
+        </button>
+        <span>{childrenTotal}</span>
+        <button 
+        onClick={childrenDec }  disabled={childrenTotal <= 1 ? true : false}    style={{ borderRadius: '50%', width: '50px', height: '50px', fontSize: '15pt', color: '#2e6c8e', backgroundColor: '#a6cde2', border: '3px solid #2e6c8e' }}>
+          -
+        </button>
+      </div>
+    </div>
+  </div>
+ 
+  <h4 className='mb-[3rem]'>Choisissez votre place</h4>
+  <div style={{ display: 'grid', justifyContent: 'center', gridTemplateColumns: 'auto auto auto auto', gap: '20px' }}>
+    
+ <InputField tatalPassengers={tatalPassengers}  handleChange={handleChange} checkCount={checkCount}/>
+ <InputField tatalPassengers={tatalPassengers}  handleChange={handleChange} checkCount={checkCount}/>
+ <InputField tatalPassengers={tatalPassengers}  handleChange={handleChange} checkCount={checkCount}/>
+
+ 
+ <InputField tatalPassengers={tatalPassengers}  handleChange={handleChange} checkCount={checkCount}/>
+ <InputField tatalPassengers={tatalPassengers}  handleChange={handleChange} checkCount={checkCount}/>
+ <InputField tatalPassengers={tatalPassengers}  handleChange={handleChange} checkCount={checkCount}/>
+
+ <InputField tatalPassengers={tatalPassengers} handleChange={handleChange}  checkCount={checkCount}/>
+ <InputField tatalPassengers={tatalPassengers} handleChange={handleChange}  checkCount={checkCount}/>
+ <InputField tatalPassengers={tatalPassengers}  handleChange={handleChange} checkCount={checkCount}/>
+
+ <InputField tatalPassengers={tatalPassengers} handleChange={handleChange}  checkCount={checkCount}/>
+ <InputField tatalPassengers={tatalPassengers} handleChange={handleChange} checkCount={checkCount} />
+ <InputField tatalPassengers={tatalPassengers}  handleChange={handleChange} checkCount={checkCount}/>
+  </div>
+  <h4 className='mt-[2rem]'>Prix Total : {totalPrix}DH</h4>
+    </div>
+}
+              {count == 4 && <div className="tab tab-4">
+  <h1>Les tickets</h1>
+
+  <div style={{ height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div className="card content" style={{     height: '400px', maxWidth: '600px', background: '#fff', padding: '20px', borderRadius: '10px',  backgroundSize: 'cover'
+, boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}>
+      <div className="user-info" style={{ marginBottom: '20px' }}>
+        <p style={{ marginBottom: '10px' }}>
+          Nom et prénom: <span style={{ fontWeight: 'bold' }}>{formData.firstNameLastName}</span>
+        </p>
+        <p style={{ marginBottom: '10px' }}>
+          E-mail: <span style={{ fontWeight: 'bold' }}>{formData.email}</span>
+        </p>
+        <p style={{ marginBottom: '10px' }}>
+          Date de réservation: <span style={{ fontWeight: 'bold' }}>{formData.date}</span>
+        </p>
+        <p>
+          Prix: <span style={{ fontWeight: 'bold' }}>{totalPrix}DH</span>
+        </p>
+      </div>
+
+      <div className="qr-code" style={{ textAlign: 'center' }}>
+        <p>Code QR :</p>
+        
+        <img src={qrcodeimg} alt="code QR" style={{ width: '150px', height: '150px', marginTop: '10px' }} />
+      </div>
+    </div>
+  </div>
+</div>
+}
+               
           </div>
     <div className='justify-around flex'>
-      <button onClick={prevBack}  type="button" className=" flex f text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Back</button>
+      <button disabled={count <= 0 ? true : false } onClick={prevBack}  type="button" className=" flex f text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Back</button>
 
-      <button onClick={addNExt} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Next</button>
+      <button disabled={count >= 4 ? true : false } onClick={addNExt} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Next</button>
 
     </div>
  

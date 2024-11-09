@@ -5,7 +5,9 @@
   text-align: center;
 }
 
- 
+ #root{
+  height: 100vh;
+ }
 
 @keyframes logo-spin {
   from {
@@ -28,4 +30,64 @@
 
 .read-the-docs {
   color: #888;
+}
+/* General Styles */
+.card {
+  width: 35%;
+  height: 75%;
+  border-radius: 1em 1em 0 0;
+
+  position: relative;
+}
+
+.view {
+  text-align: center;
+}
+
+.view img {
+  width: 90%;
+  height: 70%;
+  object-fit: cover;
+  border-radius: 1em;
+}
+
+.content {
+  background-image: url(card-backgroud.svg) !important;  /* Ensure you have the image available in your new project */
+  width: 40%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  padding: 1em;
+}
+
+.user-info {
+  padding-bottom: 60px;
+}
+
+.qr-code {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1em;
+}
+
+.qr-code img {
+  width: 55%;
+}
+.tab h1 {
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+   color: #2e6c8e;
+}
+.tab p {
+  font-weight: 400;
+  opacity: 0.8;
+}
+.user-info {
+  padding-bottom: 60px;
 }
