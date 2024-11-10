@@ -364,8 +364,8 @@ console.log(formData)
   <h4 className='mt-[2rem]'>Prix Total : {totalPrix}DH</h4>
     </div>
 }
-              {count == 4 && <div className="tab tab-4">
-  <h1>Les tickets</h1>
+              {count == 4 && <div className="tab tab-4 mt-[4rem]">
+ 
 
   <div style={{ height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
     <div className="card content" style={{     height: '400px', maxWidth: '600px', background: '#fff', padding: '20px', borderRadius: '10px',  backgroundSize: 'cover'
