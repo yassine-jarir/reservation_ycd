@@ -1,3 +1,6 @@
+html{
+  background: #ededed;
+}
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -6,7 +9,7 @@
 }
 
  #root{
-  height: 100vh;
+  height: 120vh;
  }
 
 @keyframes logo-spin {
