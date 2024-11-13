@@ -147,6 +147,7 @@ function addNExt(){
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
+
         progress: undefined,
         theme: "colored",
          });
@@ -212,8 +213,6 @@ function handleDate(e:  React.ChangeEvent<HTMLInputElement>){
 
 }
 console.log(formData)
-
-
  
   return (
     <div className='h-[500px] bg   flex justify-between flex-col'>
@@ -378,7 +377,7 @@ console.log(formData)
 
                       <InputField tatalPassengers={tatalPassengers} handleChange={handleChange} checkCount={checkCount} />
                       <InputField tatalPassengers={tatalPassengers} handleChange={handleChange} checkCount={checkCount} />
-                      <InputField tatalPassengers={tatalPassengers} handleChange={handleChange} checkCount={checkCount} />
+<InputField tatalPassengers={tatalPassengers} handleChange={handleChange} checkCount={checkCount} />
                   </div>
                   <h4 className='mt-[2rem]'>Prix Total : {totalPrix}DH</h4>
               </div>}

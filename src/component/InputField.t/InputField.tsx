@@ -1,5 +1,12 @@
  
-function InputField({tatalPassengers ,checkCount ,handleChange}) {
+
+interface InputFieldProps {
+  tatalPassengers: number;
+  checkCount: number;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+function InputField({tatalPassengers ,checkCount ,handleChange}:InputFieldProps) {
  
   return (
     <input 
