@@ -377,7 +377,7 @@ console.log(formData)
 
                       <InputField tatalPassengers={tatalPassengers} handleChange={handleChange} checkCount={checkCount} />
                       <InputField tatalPassengers={tatalPassengers} handleChange={handleChange} checkCount={checkCount} />
-<InputField tatalPassengers={tatalPassengers} handleChange={handleChange} checkCount={checkCount} />
+                      <InputField tatalPassengers={tatalPassengers} handleChange={handleChange} checkCount={checkCount} />
                   </div>
                   <h4 className='mt-[2rem]'>Prix Total : {totalPrix}DH</h4>
               </div>}
