@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import Recherche from './component/Recherche';
 import { toast, ToastContainer } from 'react-toastify';
- import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import InputField from './component/InputField.t/InputField';
 import qrcodeimg from './qr-code.svg'
 import ReservationPDF from "./component/ReservationPDF"
+import QRCode from 'react-qr-code';
  
 interface FormData {
     firstNameLastName: string,
@@ -80,9 +81,6 @@ const [childrenTotalPrix, setChildrenTotalPrix] = useState(100);
 
 const [totalPrix, setTotalPrix] = useState(0)
 
-
-
-
 useEffect(() => {
     if(tatalPassengers > 12){
         toast.info('Total of the passenger is 12 !', {
@@ -95,7 +93,6 @@ useEffect(() => {
             progress: undefined,
             theme: "colored",
              });
-      
   }
     setAdultTotalPrix(()=> adultTotal * 500 )
     setChildrenTotalPrix(()=> childrenTotal * 100)
@@ -118,7 +115,6 @@ function childrenInc(){
 function childrenDec(){
     setChildrenTotal((num)=> num - 1 )
  }
-
 
 // count the checkbox 
 const [checkCount, setCheckCount] = useState<number>(0)
@@ -383,26 +379,59 @@ console.log(formData)
               </div>}
 
               {count == 4 && <div className="tab tab-4 mt-[4rem]">
-                  {Array.from({ length: tatalPassengers }).map(() => {
+                  {Array.from({ length: adultTotal }).map(() => {
                       return <div className='mt-[3rem]' style={{  height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                           <div className="card content" style={{ height: '400px', maxWidth: '600px', background: '#fff', padding: '20px', borderRadius: '10px', backgroundSize: 'cover', boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}>
                               <div className="user-info" style={{ marginBottom: '20px' }}>
                                   <p style={{ marginBottom: '10px' }}>
-                                      Nom et prénom: <span style={{ fontWeight: 'bold' }}>{formData.firstNameLastName}</span>
+                                      Voyageur: <span style={{ fontWeight: 'bold' }}>Adult</span>
                                   </p>
                                   <p style={{ marginBottom: '10px' }}>
-                                      E-mail: <span style={{ fontWeight: 'bold' }}>{formData.email}</span>
+                                      Prix: <span style={{ fontWeight: 'bold' }}>500 DH</span>
                                   </p>
                                   <p style={{ marginBottom: '10px' }}>
                                       Date de réservation: <span style={{ fontWeight: 'bold' }}>{formData.date}</span>
                                   </p>
-                                  <p>
-                                      Prix: <span style={{ fontWeight: 'bold' }}>{totalPrix}DH</span>
-                                  </p>
+ 
                               </div>
                               <div className="qr-code" style={{ textAlign: 'center' }}>
                                   <p>Code QR :</p>
-                                  <img src={qrcodeimg} alt="code QR" style={{ width: '150px', height: '150px', marginTop: '10px' }} />
+
+                                  {/* <img src={qrcodeimg} alt="code QR" style={{ width: '150px', height: '150px', marginTop: '10px' }} /> */}
+                                  <QRCode
+                                    size={256}
+                                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                    value="uyy"
+                                    viewBox={`0 0 256 256`}
+                                />
+                              </div>
+                          </div>
+                          </div>
+                          })}
+            {Array.from({ length: childrenTotal }).map(() => {
+                      return <div className='mt-[3rem]' style={{  height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                          <div className="card content" style={{ height: '400px', maxWidth: '600px', background: '#fff', padding: '20px', borderRadius: '10px', backgroundSize: 'cover', boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}>
+                              <div className="user-info" style={{ marginBottom: '20px' }}>
+                                  <p style={{ marginBottom: '10px' }}>
+                                      Voyageur: <span style={{ fontWeight: 'bold' }}>Enfant</span>
+                                  </p>
+                                  <p style={{ marginBottom: '10px' }}>
+                                      Prix: <span style={{ fontWeight: 'bold' }}>100 DH</span>
+                                  </p>
+                                  <p style={{ marginBottom: '10px' }}>
+                                      Date de réservation: <span style={{ fontWeight: 'bold' }}>{formData.date}</span>
+                                  </p>
+ 
+                              </div>
+                              <div className="qr-code" style={{ textAlign: 'center' }}>
+                                  <p>Code QR :</p>
+                                  <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TEST" alt="code QR" style={{ width: '150px', height: '150px', marginTop: '10px' }} />
+                                  {/* <QRCode
+                                        size={256}
+                                        style={{ height: "auto", maxWidth: "100%", width: "100px" }}
+                                        value="uyy"
+                                        viewBox={`0 0 256 256`}
+                                    /> */}
                               </div>
                           </div>
                           </div>
