@@ -4,8 +4,7 @@ import Recherche from './component/Recherche';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import InputField from './component/InputField.t/InputField';
-import qrcodeimg from './qr-code.svg'
-import ReservationPDF from "./component/ReservationPDF"
+ import ReservationPDF from "./component/ReservationPDF"
 import QRCode from 'react-qr-code';
  
 interface FormData {
@@ -426,7 +425,7 @@ console.log(formData)
                               <div className="qr-code" style={{ textAlign: 'center' }}>
                                   <p>Code QR :</p>
                                   <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TEST" alt="code QR" style={{ width: '150px', height: '150px', marginTop: '10px' }} />
-                                  {/* <QRCode
+                                  {/*<QRCode
                                         size={256}
                                         style={{ height: "auto", maxWidth: "100%", width: "100px" }}
                                         value="uyy"
